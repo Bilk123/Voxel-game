@@ -77,6 +77,11 @@ public class Label extends GuiComponent {
     }
 
     @Override
+    protected void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
     protected void mousePress(MouseEvent e) {
 
     }

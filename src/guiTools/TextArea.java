@@ -78,6 +78,11 @@ public class TextArea extends GuiComponent {
     }
 
     @Override
+    protected void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
     public void mousePress(@NotNull MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();

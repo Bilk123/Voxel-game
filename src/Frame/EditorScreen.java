@@ -84,7 +84,7 @@ public class EditorScreen extends JPanel {
 
             @Override
             public void keyReleased(KeyEvent e) {
-
+                cm.keyRelease(e);
             }
         });
         setFocusable(true);

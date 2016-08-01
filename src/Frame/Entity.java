@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import util.MU;
 import util.Vector3D;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -12,15 +13,15 @@ import java.awt.event.MouseEvent;
  * Created by Blake on 7/31/2016.
  */
 public abstract class Entity extends Model {
-    private Vector3D loc;
-    private Vector3D movement;
-    private Vector3D forces;
+    protected Vector3D loc;
+    protected Vector3D movement;
+    private Level level;
 
-    public Entity(Project modelData, double x, double y, double z) {
+    public Entity(Level l, Project modelData, double x, double y, double z) {
         super(modelData.getSide(), modelData.getCanvasHeight());
+        level = l;
         loc = new Vector3D(x, y, z);
         movement = new Vector3D(0, 0, 0);
-        forces = new Vector3D(0,0,0);
         int red, green, blue;
         for (int xi = 0; xi < modelData.getSide() - 1; xi++) {
             for (int yi = 0; yi < modelData.getSide() - 1; yi++) {
@@ -39,16 +40,26 @@ public abstract class Entity extends Model {
     @Override
     protected void update() {
         super.update();
-        movement.add(MU.multiply(forces,16 / 1000.0));
-        loc.add(MU.multiply(movement,16/1000.0));
-        //getGrid().setLocation();
+        loc.add(MU.multiply(movement, 16 / 1000.0));
+        double x_ = 0, y_ = 0;
+        double dx = level.getEnv().getGrid().getPts()[0][1][1].getVecs().getX() - level.getEnv().getGrid().getPts()[0][0][0].getVecs().getX();
+        double dy = level.getEnv().getGrid().getPts()[0][1][1].getVecs().getY() - level.getEnv().getGrid().getPts()[0][0][0].getVecs().getY();
+        x_ = level.getEnv().getGrid().getPts()[(int) loc.getZ()][(int) loc.getX()][(int) loc.getY()].getVecs().getX() + (loc.getX() - (int) loc.getX()) * dx;
+        y_ = level.getEnv().getGrid().getPts()[(int) loc.getZ()][(int) loc.getX()][(int) loc.getY()].getVecs().getY() + (loc.getY() - (int) loc.getY()) * dy;
+        getGrid().setLocation((int) x_, (int) y_);
 
     }
 
+    protected abstract void hover(MouseEvent e);
+
     protected abstract void keyPress(@NotNull KeyEvent ke);
+
+    protected abstract void keyReleased(KeyEvent ke);
 
     protected abstract void drag(MouseEvent e);
 
     protected abstract void onTrigger(TriggerEvent e);
+
+    protected abstract void paint(Graphics2D g2d);
 
 }

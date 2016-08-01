@@ -236,4 +236,9 @@ public class MU {
         double z = vec.getZ() * v;
         return new Vector3D(x,y,z);
     }
+
+    public static double degreeBetweenVectors(Vector2D v1, Vector2D v2){
+        double dotp = v1.dot(v2);
+        return Math.toDegrees(arccos(dotp/(v1.getDistance()*v2.getDistance())));
+    }
 }

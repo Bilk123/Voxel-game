@@ -27,8 +27,21 @@ public class Vector2D {
         this.y = y;
     }
 
+    public double getDistance() {
+        return MU.getDistance(0, 0, x, y);
+    }
+
+    public double dot(Vector2D v1) {
+        return x * v1.x + y * v1.y;
+    }
+
+    public void normalize(){
+        x/=getDistance();
+        y/=getDistance();
+    }
+
     @Override
     public String toString() {
-        return "("+x+", "+y+")";
+        return "(" + x + ", " + y + ")";
     }
 }

@@ -162,6 +162,11 @@ public class Slider extends GuiComponent {
     }
 
     @Override
+    protected void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
     public void mousePress(@NotNull MouseEvent e) {
         mb = e.getButton();
         int mx = e.getX();

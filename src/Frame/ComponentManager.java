@@ -16,7 +16,7 @@ public class ComponentManager extends JComponent {
     private Level lvl;
     public ComponentManager() {
         guiComponents = new ArrayList<>();
-        lvl = new Level("data\\levels\\house");
+        lvl = new Level("testmap");
         addComponent(lvl);
     }
 
@@ -39,6 +39,10 @@ public class ComponentManager extends JComponent {
 
     public void keyPress(KeyEvent e) {
         guiComponents.stream().filter(guiComponent -> !guiComponent.getDisabled()).forEach(guiComponent -> guiComponent.keyPressedSC(e));
+    }
+
+    public void keyRelease(KeyEvent e) {
+        guiComponents.stream().filter(guiComponent -> !guiComponent.getDisabled()).forEach(guiComponent -> guiComponent.keyReleasedSC(e));
     }
 
     public void mouseWheel(MouseWheelEvent e) {

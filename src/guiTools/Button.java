@@ -27,7 +27,7 @@ public class Button extends GuiComponent {
     private boolean isHovering;
 
     public Button(double x_, double y_, double width, double height, @NotNull Image buttonImage, String toolTip, @NotNull GuiEvent event) {
-        super(x_, y_, width, height, new Color(0, 0, 0), 4, false);
+        super(x_, y_, width, height);
         this.buttonImage = buttonImage;
         double ibr = (width) / buttonImage.getWidth(null);
         af = new AffineTransform(ibr, 0, 0, ibr, PU.getXInBounds(bounds, width, 0.5), PU.getYInBounds(bounds, height, 0.5));
@@ -92,6 +92,11 @@ public class Button extends GuiComponent {
 
     @Override
     public void keyPress(KeyEvent e) {
+    }
+
+    @Override
+    protected void keyReleased(KeyEvent e) {
+
     }
 
     @Override

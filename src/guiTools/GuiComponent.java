@@ -25,15 +25,6 @@ public abstract class GuiComponent {
     private final boolean drawBackground;
     private boolean disabled = false;
 
-    protected GuiComponent(double x, double y, double width, double height, Color bgColor, int shadowSize, boolean minimizable) {
-        subComponents = new ArrayList<>();
-        bounds = new Rectangle((int) x, (int) y, (int) width, (int) height);
-        this.bgColor = bgColor;
-        this.shadowSize = shadowSize;
-        drawBackground = true;
-        setDimensions(width, height);
-    }
-
     protected GuiComponent(double x, double y, double width, double height) {
 
         drawBackground = false;
@@ -87,6 +78,11 @@ public abstract class GuiComponent {
     public void keyPressedSC(KeyEvent e) {
         keyPress(e);
         subComponents.stream().filter(subComponent -> !subComponent.getDisabled()).forEach(subComponent -> subComponent.keyPress(e));
+    }
+
+    public void keyReleasedSC(KeyEvent e) {
+        keyReleased(e);
+        subComponents.stream().filter(subComponent -> !subComponent.getDisabled()).forEach(subComponent -> subComponent.keyReleased(e));
     }
 
     public void mousePressSC(MouseEvent e) {
@@ -173,6 +169,8 @@ public abstract class GuiComponent {
     protected abstract void scroll(MouseWheelEvent mwe);
 
     protected abstract void keyPress(KeyEvent e);
+
+    protected abstract void keyReleased(KeyEvent e);
 
     protected abstract void mousePress(MouseEvent e);
 

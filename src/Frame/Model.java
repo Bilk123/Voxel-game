@@ -2,6 +2,8 @@ package Frame;
 
 import org.jetbrains.annotations.NotNull;
 import util.MU;
+import util.Vector2D;
+import util.Vector3D;
 
 import java.awt.*;
 
@@ -22,6 +24,14 @@ public class Model {
     private final @NotNull PaintEvent paintY;// an interface object, which is used for order of painting to ensure no
     //  private final @NotNull SortEvent searchX;//an interface object, which is used for order of searching for which cube is being hovered on/clicked on;
     //  private final @NotNull SortEvent searchY;//an interface object, which is used for order of searching for which cube is being hovered on/clicked on;
+    public static Vector2D globalX, globalY;
+    public static Vector3D globalZ;
+
+    static {
+        globalX = new Vector2D(1, 0);
+        globalY = new Vector2D(0, 1);
+        globalZ = new Vector3D(0, 0, 1);
+    }
 
     public Model(int side, int height) {  //constructor
         grid = new Grid(side, height, EditorScreen.s_maxWidth / 2, EditorScreen.s_maxHeight / 2);//instantiates the grid in the centre of the screen
@@ -101,7 +111,7 @@ public class Model {
                 }
             }
         };*/
-          //addSphere(0,0,0,10,10,10);
+        //addSphere(0,0,0,10,10,10);
 
     }
 
@@ -148,17 +158,17 @@ public class Model {
 
     public void setBuffer(int[][][] newBuffer) {
         normalBuffer = newBuffer;
-        int r,g,b;
+        int r, g, b;
         for (int z = 0; z < grid.getHeight() - 1; z++) {
             for (int y = 0; y < grid.getSide() - 1; y++) {
                 for (int x = 0; x < grid.getSide() - 1; x++) {
-                    if(normalBuffer[z][x][y] >=0){
-                        r = (normalBuffer[z][x][y]&0xff0000)>>16;
-                        g = (normalBuffer[z][x][y]&0xff00)>>8;
-                        b = (normalBuffer[z][x][y]&0xff);
-                        setCube(x,y,z,r,g,b);
-                    }else{
-                        cubes[z][x][y]=null;
+                    if (normalBuffer[z][x][y] >= 0) {
+                        r = (normalBuffer[z][x][y] & 0xff0000) >> 16;
+                        g = (normalBuffer[z][x][y] & 0xff00) >> 8;
+                        b = (normalBuffer[z][x][y] & 0xff);
+                        setCube(x, y, z, r, g, b);
+                    } else {
+                        cubes[z][x][y] = null;
                     }
                 }
             }
@@ -201,14 +211,13 @@ public class Model {
         g2d.setColor(Color.black);
 
         paintZ(paintY, g2d);
-        g2d.setColor(new Color(1f, 1f, 1f, 0.4f));
+        g2d.setColor(new Color(1f, 1f, 1f, 1f));
     }
 
     protected void update() {// is called every frame
         grid.update();
         square = MU.makeSquareB(false, (int) grid.getRotate(), 360);
         shiftSquare = MU.makeSquareB(true, (int) grid.getRotate(), 360);
-        int red,green,blue;
         for (int zi = 0; zi < grid.getHeight() - 1; zi++) {
             for (int yi = 0; yi < grid.getSide() - 1; yi++) {
                 for (int xi = 0; xi < grid.getSide() - 1; xi++) {
@@ -270,7 +279,7 @@ public class Model {
         for (int z = 0; z < height - 1; z++) {
             for (int y = 0; y < side - 1; y++) {
                 for (int x = 0; x < side - 1; x++) {
-                    System.out.print((normalBuffer[z][x][y])+"\t");
+                    System.out.print((normalBuffer[z][x][y]) + "\t");
                 }
                 System.out.println();
             }

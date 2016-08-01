@@ -2,6 +2,7 @@ package Frame;
 
 import org.jetbrains.annotations.NotNull;
 import util.MU;
+import util.Vector2D;
 
 import java.awt.*;
 
@@ -17,7 +18,6 @@ public class Grid {
     private int y;
     private final int height;
     private final int side;
-    private static Polygon empty = new Polygon();
     @NotNull
     private final int[][][] xp;
     @NotNull
@@ -31,11 +31,6 @@ public class Grid {
     private final CirclePoint[] zAxis;
     @NotNull
     private final CirclePoint cent;
-    private static final Color colorGridp = new Color(1f, 1f, 1f, 0.6f);
-    private static final Color colorGridn = new Color(1f, 1f, 1f, 0.3f);
-    private Polygon selected;
-    private int selectedX, selectedY;
-
     public Grid(int side, int height, int x, int y) {
         /**
          * creates the 3D space with specified location, dimensions, rotations and scale
@@ -45,7 +40,6 @@ public class Grid {
          * p = (180*arctan(yPoint/xPoint))/PI.
          * a circle,with a radius of root(200)*n,n increments until it is equal to height, and side^2 crosses are made at every rotatey of each one of the circles which were created
          */
-        selected = new Polygon();
         this.y = y;
         this.x = x;
         this.rotate = (double) 45;
@@ -114,18 +108,6 @@ public class Grid {
                     90, 0, rotatey - 90, zoom);
             y_ = (int) (zAxis[zi].getPts()[0].getY());
         }
-  /*      for (int xi = 0; xi < side - 1; xi++) {
-            for (int yi = 0; yi < side - 1; yi++) {
-                for (int i = 0; i < 4; i++) {
-                    xp[xi][yi][i] = (int) pts[0][xi + MU.makeSquareI(false, i, 4)][yi + MU.makeSquareI(true, i, 4)].getVecs().getX();
-                    yp[xi][yi][i] = (int) pts[0][xi + MU.makeSquareI(false, i, 4)][yi + MU.makeSquareI(true, i, 4)].getVecs().getY();
-                }
-                p[xi][yi].xpoints = xp[xi][yi];
-                p[xi][yi].ypoints = yp[xi][yi];
-                p[xi][yi].reset();
-                p[xi][yi].npoints = 4;
-            }
-        }*/
     }
 
     public void paint(@NotNull Graphics2D g2d) {
@@ -225,4 +207,7 @@ public class Grid {
         return y;
     }
 
+    public Vector2D getLocation() {
+        return new Vector2D(x, y);
+    }
 }

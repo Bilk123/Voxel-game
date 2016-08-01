@@ -1,6 +1,5 @@
 package Frame;
 
-
 import java.util.HashMap;
 
 /**
@@ -8,7 +7,6 @@ import java.util.HashMap;
  */
 public class AnimationController {
     private Animation[] animations;
-    private int[][][] model;
     private HashMap<String, Integer> animationAccessor;
     private int playingAnimation;
 
@@ -21,19 +19,17 @@ public class AnimationController {
     }
 
     public void update() {
-        for(int i =0;i<animations.length;i++){
-            if(playingAnimation == i){
-                animations[i].update();
-            }
-        }
+        animations[playingAnimation].update();
     }
 
     public void playAnimation(String tag){
-        System.out.println(playingAnimation);
         playingAnimation = animationAccessor.get(tag);
+        if(playingAnimation != animationAccessor.get(tag)){
+            getPlayingAnimation().reset();
+        }
     }
 
-    public int[][][] getModel() {
-        return model;
+    public Animation getPlayingAnimation() {
+        return animations[playingAnimation];
     }
 }
