@@ -10,8 +10,8 @@ import java.util.ArrayList;
  */
 public class Animation {
     private Project[] frames;
-    private ArrayList<Vector3D>[] changesLoc;
-    private ArrayList<Integer>[] changes;
+    private ArrayList[] changesLoc;
+    private ArrayList[] changes;
     private String animationName;
     private int currentFrame = 0;
     private int delayMs;
@@ -27,8 +27,8 @@ public class Animation {
         changesLoc = new ArrayList[f1.length];
         changes = new ArrayList[f1.length];
         for(int i=0;i<f1.length;i++){
-            changes[i] = new ArrayList<>();
-            changesLoc[i] = new ArrayList<>();
+            changes[i] = new ArrayList<Integer>();
+            changesLoc[i] = new ArrayList<Vector3D>();
         }
 
         for (int i = 0; i < f1.length - 1; i++) {

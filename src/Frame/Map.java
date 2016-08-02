@@ -10,5 +10,6 @@ public class Map extends Model{
         super(map.getSide(), map.getCanvasHeight());
         setBuffer(map.getCubeData());
         setZoom(15);
+        setRotate(45);
     }
 }

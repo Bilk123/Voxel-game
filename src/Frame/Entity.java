@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
 public abstract class Entity extends Model {
     protected Vector3D loc;
     protected Vector3D movement;
-    private Level level;
+    protected Level level;
 
     public Entity(Level l, Project modelData, double x, double y, double z) {
         super(modelData.getSide(), modelData.getCanvasHeight());
@@ -40,12 +40,11 @@ public abstract class Entity extends Model {
     @Override
     protected void update() {
         super.update();
+        Vector3D pLoc = loc;
         loc.add(MU.multiply(movement, 16 / 1000.0));
-        double x_ = 0, y_ = 0;
-        double dx = level.getEnv().getGrid().getPts()[0][1][1].getVecs().getX() - level.getEnv().getGrid().getPts()[0][0][0].getVecs().getX();
-        double dy = level.getEnv().getGrid().getPts()[0][1][1].getVecs().getY() - level.getEnv().getGrid().getPts()[0][0][0].getVecs().getY();
-        x_ = level.getEnv().getGrid().getPts()[(int) loc.getZ()][(int) loc.getX()][(int) loc.getY()].getVecs().getX() + (loc.getX() - (int) loc.getX()) * dx;
-        y_ = level.getEnv().getGrid().getPts()[(int) loc.getZ()][(int) loc.getX()][(int) loc.getY()].getVecs().getY() + (loc.getY() - (int) loc.getY()) * dy;
+        double x_, y_;
+        x_ = level.getEnv().getGrid().getPts()[(int) loc.getZ()][(int) loc.getX()][(int) loc.getY()].getVecs().getX();
+        y_ = level.getEnv().getGrid().getPts()[(int) loc.getZ()][(int) loc.getX()][(int) loc.getY()].getVecs().getY();
         getGrid().setLocation((int) x_, (int) y_);
 
     }

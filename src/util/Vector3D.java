@@ -33,7 +33,7 @@ public class Vector3D {
 
     @Override
     public String toString() {
-        return "(" + x + ", " + y + ", " + z + ")";
+        return "(" + (int)x + ", " + (int)y + ", " + (int)z + ")";
     }
 
     public void add(Vector3D vec) {

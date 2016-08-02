@@ -77,12 +77,17 @@ public class Player extends Entity {
         double x_,y_;
         if (kc == KeyEvent.VK_W) {
             a.playAnimation("walking");
-            x_ = MU.cos(getGrid().getRotate());
-            y_ = MU.sin(getGrid().getRotate());
-            movement.set(x_,y_,0);
+            x_ = MU.cos(getGrid().getRotate()+level.getEnv().getGrid().getRotate()+270);
+            y_ = MU.sin(getGrid().getRotate()+level.getEnv().getGrid().getRotate()+270);
+            System.out.println(x_);
+            System.out.println(y_);
+            System.out.println(getGrid().getRotate());
+            System.out.println(loc);
+            movement.set(2*x_,2*y_,0);
         }
         if (kc == KeyEvent.VK_S) {
             a.playAnimation("walking");
+            movement.set(-1.5,-1.5,0);
         }
         if (kc == KeyEvent.VK_A) {
             a.playAnimation("walking");
@@ -112,6 +117,8 @@ public class Player extends Entity {
             g2d.setColor(new Color(0,0,0,i/70.0f));
             g2d.fillOval(getGrid().getX()-i,(int)(getGrid().getY()-0.5*i),(int)(1.8*i),i);
         }
+        g2d.setColor(Color.black);
+        g2d.drawLine(level.getEnv().getGrid().getX(),level.getEnv().getGrid().getY(),getGrid().getX(),getGrid().getY());
     }
 
 

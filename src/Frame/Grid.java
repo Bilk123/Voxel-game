@@ -16,6 +16,7 @@ public class Grid {
      */
     private int x;
     private int y;
+    private Vector2D pointInSpace;
     private final int height;
     private final int side;
     @NotNull
@@ -42,6 +43,7 @@ public class Grid {
          */
         this.y = y;
         this.x = x;
+        pointInSpace = new Vector2D(0,0);
         this.rotate = (double) 45;
         this.rotatey = (double) 35;
         this.zoom = (double) 15;
@@ -209,5 +211,16 @@ public class Grid {
 
     public Vector2D getLocation() {
         return new Vector2D(x, y);
+    }
+
+    public Vector2D getPointInSpace(double x, double y, double z){
+        double x_, y_;
+        x_ = (int) cent.getPts()[0].getX();
+        y_ = (int) cent.getPts()[0].getY();
+        GridPoint gp = new GridPoint((int)x_,(int)y_, (int) (Math.sqrt(MU.square(100 * (x) * MU.cos(45)) + MU.square(100 * y * MU.sin(45)))), rotate, Math.toDegrees(MU.arctan(y / x)), rotatey, zoom);
+
+        y_ = 0;
+        pointInSpace.set(x_,y_);
+        return pointInSpace;
     }
 }
