@@ -5,9 +5,6 @@ import util.Vector3D;
 
 import java.util.ArrayList;
 
-/**
- * Created by Blake on 7/31/2016.
- */
 public class Animation {
     private Project[] frames;
     private ArrayList[] changesLoc;

@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
 public class Player extends Entity {
     private AnimationController a;
     private int mx, my;
-
+    private double speed = 3.5;
     public Player(Level l, Project modelData, double x, double y, double z) {
         super(l, modelData, x, y, z);
         a = new AnimationController(
@@ -27,7 +27,7 @@ public class Player extends Entity {
                 new Animation("idle", -1,
                         Project.loadProject("data\\models\\idlePlayer")));
 
-        setZoom(2);
+        setZoom(7);
         a.playAnimation("idle");
     }
 
@@ -79,15 +79,13 @@ public class Player extends Entity {
             a.playAnimation("walking");
             x_ = MU.cos(getGrid().getRotate()+level.getEnv().getGrid().getRotate()+270);
             y_ = MU.sin(getGrid().getRotate()+level.getEnv().getGrid().getRotate()+270);
-            System.out.println(x_);
-            System.out.println(y_);
-            System.out.println(getGrid().getRotate());
-            System.out.println(loc);
-            movement.set(2*x_,2*y_,0);
+            movement.set(speed*x_,speed*y_,0);
         }
         if (kc == KeyEvent.VK_S) {
             a.playAnimation("walking");
-            movement.set(-1.5,-1.5,0);
+            x_ = MU.cos(getGrid().getRotate()+level.getEnv().getGrid().getRotate()+270);
+            y_ = MU.sin(getGrid().getRotate()+level.getEnv().getGrid().getRotate()+270);
+            movement.set(-speed*x_,-speed*y_,0);
         }
         if (kc == KeyEvent.VK_A) {
             a.playAnimation("walking");
@@ -105,6 +103,20 @@ public class Player extends Entity {
 
     @Override
     protected void drag(MouseEvent e) {
+        mx = e.getX();
+        my = e.getY();
+        double dx = mx - getGrid().getX();
+        double dy = (my - getGrid().getY());
+        Vector2D loc = new Vector2D(dx, dy);
+        double theta = MU.degreeBetweenVectors(Model.globalX, loc);
+        if (dy < 0) {
+            theta *= -1;
+            theta += 360;
+        }
+        if (dx == 0 && dy == 0) {
+            theta = 0;
+        }
+        getGrid().setRotate(theta);
     }
 
     @Override
@@ -117,8 +129,6 @@ public class Player extends Entity {
             g2d.setColor(new Color(0,0,0,i/70.0f));
             g2d.fillOval(getGrid().getX()-i,(int)(getGrid().getY()-0.5*i),(int)(1.8*i),i);
         }
-        g2d.setColor(Color.black);
-        g2d.drawLine(level.getEnv().getGrid().getX(),level.getEnv().getGrid().getY(),getGrid().getX(),getGrid().getY());
     }
 
 

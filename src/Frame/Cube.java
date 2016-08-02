@@ -3,6 +3,7 @@ package Frame;
 import org.jetbrains.annotations.NotNull;
 import util.MU;
 import util.PU;
+import util.Vector3D;
 
 import java.awt.*;
 
@@ -18,7 +19,7 @@ public class Cube {
     private Color color[];
     private Color top, bot, back, front, left, right;
     private Grid grid;
-
+    private Vector3D c1,c2;
 
     private Model env;
 
@@ -49,7 +50,8 @@ public class Cube {
         cube[0] = new Polygon();
         cube[1] = new Polygon();
         cube[2] = new Polygon();
-
+        c1 = new Vector3D(x,y,z);
+        c2 = new Vector3D(x+1,y+1,z+1);
     }
 
     public void updateCube() {
@@ -253,5 +255,11 @@ public class Cube {
         this.color[0] = top;
         this.color[1] = front;
         this.color[2] = right;
+    }
+
+    public boolean isPointInsideAABB(Vector3D point){
+        return (point.getX() >= c1.getX() && point.getX() <= c2.getX()) &&
+                (point.getY() >= c1.getY() && point.getY() <= c2.getY()) &&
+                (point.getZ() >= c1.getZ() && point.getZ() <= c2.getZ());
     }
 }

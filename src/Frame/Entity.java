@@ -3,6 +3,7 @@ package Frame;
 import backend.Project;
 import org.jetbrains.annotations.NotNull;
 import util.MU;
+import util.Vector2D;
 import util.Vector3D;
 
 import java.awt.*;
@@ -16,12 +17,15 @@ public abstract class Entity extends Model {
     protected Vector3D loc;
     protected Vector3D movement;
     protected Level level;
+    private Vector3D cp1, cp2;
 
     public Entity(Level l, Project modelData, double x, double y, double z) {
         super(modelData.getSide(), modelData.getCanvasHeight());
         level = l;
         loc = new Vector3D(x, y, z);
         movement = new Vector3D(0, 0, 0);
+        cp1 = new Vector3D(loc.getX() + 0.5, loc.getY(), loc.getZ() + 0.5);
+        cp2 = new Vector3D(loc.getX() + 0.5, loc.getY(), loc.getZ() + 1.5);
         int red, green, blue;
         for (int xi = 0; xi < modelData.getSide() - 1; xi++) {
             for (int yi = 0; yi < modelData.getSide() - 1; yi++) {
@@ -40,12 +44,20 @@ public abstract class Entity extends Model {
     @Override
     protected void update() {
         super.update();
-        Vector3D pLoc = loc;
-        loc.add(MU.multiply(movement, 16 / 1000.0));
-        double x_, y_;
-        x_ = level.getEnv().getGrid().getPts()[(int) loc.getZ()][(int) loc.getX()][(int) loc.getY()].getVecs().getX();
-        y_ = level.getEnv().getGrid().getPts()[(int) loc.getZ()][(int) loc.getX()][(int) loc.getY()].getVecs().getY();
-        getGrid().setLocation((int) x_, (int) y_);
+        for (int z = (int) loc.getZ(); z < loc.getZ() + 2; z++) {
+            for (int x = 0; x < level.getEnv().getSide() - 1; x++) {
+                for (int y = 0; y < level.getEnv().getSide() - 1; y++) {
+                    if (level.getEnv().checkForCube(x, y, z)) {
+                        if (level.getEnv().getCubes()[z][x][y].isPointInsideAABB(cp1) || level.getEnv().getCubes()[z][x][y].isPointInsideAABB(cp2)) {
+                            movement.set(0, 0, 0);
+                        }
+                    }
+                }
+            }
+        }
+        loc.add(MU.multiply(movement, 16 / 1000.0), true);
+        Vector2D sLoc = Grid.getPointInSpace(level.getEnv().getGrid(), loc.getX(), loc.getY(), loc.getZ());
+        getGrid().setLocation((int) sLoc.getX(), (int) sLoc.getY());
 
     }
 

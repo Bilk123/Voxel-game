@@ -16,7 +16,6 @@ public class Grid {
      */
     private int x;
     private int y;
-    private Vector2D pointInSpace;
     private final int height;
     private final int side;
     @NotNull
@@ -32,6 +31,7 @@ public class Grid {
     private final CirclePoint[] zAxis;
     @NotNull
     private final CirclePoint cent;
+
     public Grid(int side, int height, int x, int y) {
         /**
          * creates the 3D space with specified location, dimensions, rotations and scale
@@ -43,7 +43,6 @@ public class Grid {
          */
         this.y = y;
         this.x = x;
-        pointInSpace = new Vector2D(0,0);
         this.rotate = (double) 45;
         this.rotatey = (double) 35;
         this.zoom = (double) 15;
@@ -113,10 +112,10 @@ public class Grid {
     }
 
     public void paint(@NotNull Graphics2D g2d) {
-        for(int x =0;x<side;x++){
-            for(int y=0;y<side;y++){
-                for(int z =0;z<height;z++){
-                    g2d.fillRect((int) pts[z][x][y].getVecs().getX(),(int) pts[z][x][y].getVecs().getY(),2,2);
+        for (int x = 0; x < side; x++) {
+            for (int y = 0; y < side; y++) {
+                for (int z = 0; z < height; z++) {
+                    g2d.fillRect((int) pts[z][x][y].getVecs().getX(), (int) pts[z][x][y].getVecs().getY(), 2, 2);
                 }
             }
         }
@@ -213,14 +212,26 @@ public class Grid {
         return new Vector2D(x, y);
     }
 
-    public Vector2D getPointInSpace(double x, double y, double z){
+    public static Vector2D getPointInSpace(Grid grid, double xi, double yi, double zi) {
         double x_, y_;
-        x_ = (int) cent.getPts()[0].getX();
-        y_ = (int) cent.getPts()[0].getY();
-        GridPoint gp = new GridPoint((int)x_,(int)y_, (int) (Math.sqrt(MU.square(100 * (x) * MU.cos(45)) + MU.square(100 * y * MU.sin(45)))), rotate, Math.toDegrees(MU.arctan(y / x)), rotatey, zoom);
+        GridPoint gp = new GridPoint(0, 0, 0, 0, 0, 0, 0);
+        CirclePoint zLoc = new CirclePoint(1, 0, 0, 0, 0, 0, 0, 0);
+        grid.cent.update(grid.x, grid.y,
+                (int) (Math.sqrt(MU.square(100 * (grid.side - 1) * MU.cos(45)) + MU.square(100 * (grid.side - 1) * MU.sin(45))) / 2),
+                grid.rotate - 135, 90, grid.rotatey, grid.zoom);
 
-        y_ = 0;
-        pointInSpace.set(x_,y_);
-        return pointInSpace;
+        x_ = (int) grid.cent.getPts()[0].getX();
+        y_ = (int) grid.cent.getPts()[0].getY();
+        zLoc.update((int) x_, (int) (grid.y - (grid.y - grid.cent.getPts()[0].getY())),
+                (int) ((zi + 1) * Math.abs(Math.sqrt(MU.square(100 * MU.cos(45)) + MU.square(100 * MU.sin(45)))     //(z+1)*|squareRoot(((100*cos(45))^2)+(100*sin(45))^2) - squareRoot((200*cos(45))^2+(200*sin45)^2)|
+                        - Math.sqrt(MU.square(100 * 2 * MU.cos(45)) + MU.square(100 * 2 * MU.sin(45)))) / Math.sqrt(2)),
+                90, 0, grid.rotatey - 90, grid.zoom);
+        y_ = (int) (zLoc.getPts()[0].getY());
+        gp.update((int) x_, (int) y_,
+                (int) (Math.sqrt(MU.square(100 * (xi) * MU.cos(45)) + MU.square(100 * yi * MU.sin(45)))),
+                grid.rotate, Math.toDegrees(MU.arctan(yi / xi)), grid.rotatey, grid.zoom);
+
+
+        return gp.getVecs();
     }
 }

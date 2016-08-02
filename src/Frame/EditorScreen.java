@@ -30,7 +30,7 @@ public class EditorScreen extends JPanel {
         s_maxHeight = ss.height;
         s_maxWidth = ss.width;
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        jf.setSize(1280, 720);
+        jf.setSize((int)(s_maxWidth*0.8), (int) ((s_maxWidth*0.8)*9/16.0));
         s_maxWidth = jf.getWidth();
         s_maxHeight = jf.getHeight();
         cm = new ComponentManager();

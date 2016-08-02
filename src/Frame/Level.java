@@ -19,7 +19,7 @@ public class Level extends GuiComponent {
     protected Level(String fileName) {
         super(0, 0, EditorScreen.s_maxWidth, EditorScreen.s_maxHeight);
         entities = new ArrayList<>();
-        p = new Player(this, Project.loadProject("data\\models\\idlePlayer"),16,16,0);
+        p = new Player(this, Project.loadProject("data\\models\\idlePlayer"),23,23,1);
         entities.add(p);
         env = new Map(Project.loadProject("data\\levels\\"+fileName));
     }

@@ -9,7 +9,13 @@ public class Map extends Model{
     public Map(Project map) {
         super(map.getSide(), map.getCanvasHeight());
         setBuffer(map.getCubeData());
-        setZoom(15);
+        setZoom(45);
         setRotate(45);
+    }
+
+    @Override
+    protected void update() {
+        super.update();
+        getGrid().setLocation(EditorScreen.s_maxWidth/2,EditorScreen.s_maxHeight/2);
     }
 }

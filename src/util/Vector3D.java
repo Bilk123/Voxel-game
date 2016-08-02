@@ -33,13 +33,25 @@ public class Vector3D {
 
     @Override
     public String toString() {
-        return "(" + (int)x + ", " + (int)y + ", " + (int)z + ")";
+        return "(" + (int) x + ", " + (int) y + ", " + (int) z + ")";
     }
 
-    public void add(Vector3D vec) {
-        x+=vec.x;
-        y+=vec.y;
-        z+=vec.z;
+    public void add(Vector3D vec, boolean keepInBounds) {
+        if (!keepInBounds) {
+            x += vec.x;
+            y += vec.y;
+            z += vec.z;
+        }else{
+            if(x+vec.x>1){
+                x += vec.x;
+            }
+            if(y+vec.y>1){
+                y += vec.y;
+            }
+            if(z+vec.z>0){
+                z += vec.z;
+            }
+        }
     }
 
 

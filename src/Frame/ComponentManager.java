@@ -16,7 +16,7 @@ public class ComponentManager extends JComponent {
     private Level lvl;
     public ComponentManager() {
         guiComponents = new ArrayList<>();
-        lvl = new Level("testmap");
+        lvl = new Level("Zombie Map");
         addComponent(lvl);
     }
 

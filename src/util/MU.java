@@ -220,13 +220,13 @@ public class MU {
         return val1 <= val2 ? val1 : val2;
     }
 
+    public static double max(double val1, double val2) {
+        return val1 >= val2 ? val1 : val2;
+    }
+
     @Contract(pure = true)
     public static int extractDigit(int index, int binNumber) {
         return (binNumber & (0b1 << (index))) >> (index);
-    }
-
-    public static double max(double val1, double val2) {
-        return val1 >= val2 ? val1 : val2;
     }
 
     public static Vector3D multiply(Vector3D vec, double v) {
@@ -234,11 +234,15 @@ public class MU {
         double x = vec.getX() * v;
         double y = vec.getY() * v;
         double z = vec.getZ() * v;
-        return new Vector3D(x,y,z);
+        return new Vector3D(x, y, z);
     }
 
-    public static double degreeBetweenVectors(Vector2D v1, Vector2D v2){
+    public static double degreeBetweenVectors(Vector2D v1, Vector2D v2) {
         double dotp = v1.dot(v2);
-        return Math.toDegrees(arccos(dotp/(v1.getDistance()*v2.getDistance())));
+        return Math.toDegrees(arccos(dotp / (v1.getDistance() * v2.getDistance())));
+    }
+
+    public static Vector3D add(Vector3D v1, Vector3D v2) {
+        return new Vector3D(v1.getX() + v2.getX(), v1.getY() + v2.getY(), v1.getZ() + v2.getZ());
     }
 }
