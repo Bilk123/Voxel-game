@@ -12,16 +12,6 @@ import java.awt.*;
  * Created by Blake on 7/31/2016.
  */
 public class Model {
-    @NotNull
-    private final Grid grid;    //the 3D space and grid which is used to display cubes, see the Grid class
-    private Cube[][][] cubes;   //stores the cube data of the canvas
-    private int[][][] normalBuffer;
-    private final @NotNull Rectangle pnt;//used for user
-    private int side, height;   // the sides length and height of the canvas
-    private boolean square;
-    private boolean shiftSquare;
-    private final @NotNull PaintEvent paintX;// an interface object, which is used for order of painting
-    private final @NotNull PaintEvent paintY;// an interface object, which is used for order of painting to ensure no
     //  private final @NotNull SortEvent searchX;//an interface object, which is used for order of searching for which cube is being hovered on/clicked on;
     //  private final @NotNull SortEvent searchY;//an interface object, which is used for order of searching for which cube is being hovered on/clicked on;
     public static Vector2D globalX, globalY;
@@ -32,6 +22,17 @@ public class Model {
         globalY = new Vector2D(0, 1);
         globalZ = new Vector3D(0, 0, 1);
     }
+
+    @NotNull
+    protected final Grid grid;    //the 3D space and grid which is used to display cubes, see the Grid class
+    private final @NotNull Rectangle pnt;//used for user
+    private final @NotNull PaintEvent paintY;// an interface object, which is used for order of painting to ensure no
+    protected Cube[][][] cubes;   //stores the cube data of the canvas
+    protected boolean square;
+    protected boolean shiftSquare;
+    protected @NotNull PaintEvent paintX;// an interface object, which is used for order of painting
+    private int[][][] normalBuffer;
+    private int side, height;   // the sides length and height of the canvas
 
     public Model(int side, int height) {  //constructor
         grid = new Grid(side, height, EditorScreen.s_maxWidth / 2, EditorScreen.s_maxHeight / 2);//instantiates the grid in the centre of the screen
@@ -156,26 +157,6 @@ public class Model {
         }
     }
 
-    public void setBuffer(int[][][] newBuffer) {
-        normalBuffer = newBuffer;
-        int r, g, b;
-        for (int z = 0; z < grid.getHeight() - 1; z++) {
-            for (int y = 0; y < grid.getSide() - 1; y++) {
-                for (int x = 0; x < grid.getSide() - 1; x++) {
-                    if (normalBuffer[z][x][y] >= 0) {
-                        r = (normalBuffer[z][x][y] & 0xff0000) >> 16;
-                        g = (normalBuffer[z][x][y] & 0xff00) >> 8;
-                        b = (normalBuffer[z][x][y] & 0xff);
-                        setCube(x, y, z, r, g, b);
-                    } else {
-                        cubes[z][x][y] = null;
-                    }
-                }
-            }
-        }
-
-    }
-
     public void setCube(int x, int y, int z, int red, int green, int blue) {// sets a single cube in the canvas with a specified colour
         if (checkIfInBounds(x, y, z)) {
             cubes[z][x][y] = new Cube(this, x, y, z, red, green, blue);
@@ -231,7 +212,6 @@ public class Model {
         // searchZ(searchY);
     }
 
-
     @NotNull
     public Grid getGrid() {
         return grid; // returns the 3d spcae points;
@@ -262,7 +242,6 @@ public class Model {
         grid.setZoom(zoom);//sets how zoomed in or out the canvas is
     }
 
-
     public void removeCubeAt(int x, int y, int z) {
         if (checkForCube(x, y, z)) {
             if (checkIfInBounds(x, y, z)) {
@@ -273,6 +252,26 @@ public class Model {
 
     public int[][][] getBuffer() {
         return normalBuffer;
+    }
+
+    public void setBuffer(int[][][] newBuffer) {
+        normalBuffer = newBuffer;
+        int r, g, b;
+        for (int z = 0; z < grid.getHeight() - 1; z++) {
+            for (int y = 0; y < grid.getSide() - 1; y++) {
+                for (int x = 0; x < grid.getSide() - 1; x++) {
+                    if (normalBuffer[z][x][y] >= 0) {
+                        r = (normalBuffer[z][x][y] & 0xff0000) >> 16;
+                        g = (normalBuffer[z][x][y] & 0xff00) >> 8;
+                        b = (normalBuffer[z][x][y] & 0xff);
+                        setCube(x, y, z, r, g, b);
+                    } else {
+                        cubes[z][x][y] = null;
+                    }
+                }
+            }
+        }
+
     }
 
     public void display() {

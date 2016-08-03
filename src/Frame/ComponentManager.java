@@ -2,6 +2,7 @@ package Frame;
 
 import guiTools.GuiComponent;
 import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -65,5 +66,7 @@ public class ComponentManager extends JComponent {
         for (GuiComponent guiComponent : guiComponents) {
             guiComponent.paintAll(g2d);
         }
+        g2d.setColor(new Color(0, 0, 0, 0.3f));
+        g2d.fillRect(0, 0, EditorScreen.s_maxWidth, EditorScreen.s_maxHeight);
     }
 }

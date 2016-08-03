@@ -19,7 +19,7 @@ public class Cube {
     private Color color[];
     private Color top, bot, back, front, left, right;
     private Grid grid;
-    private Vector3D c1,c2;
+    private Vector3D cmin, cmax;
 
     private Model env;
 
@@ -50,8 +50,8 @@ public class Cube {
         cube[0] = new Polygon();
         cube[1] = new Polygon();
         cube[2] = new Polygon();
-        c1 = new Vector3D(x,y,z);
-        c2 = new Vector3D(x+1,y+1,z+1);
+        cmin = new Vector3D(x, y, z);
+        cmax = new Vector3D(x + 1, y + 1, z + 1);
     }
 
     public void updateCube() {
@@ -185,7 +185,7 @@ public class Cube {
             g2d.setColor(color[2]);
             g2d.fill(cube[2]);
         }
-
+        g2d.setColor(Color.BLACK);
 
     }
 
@@ -257,9 +257,15 @@ public class Cube {
         this.color[2] = right;
     }
 
-    public boolean isPointInsideAABB(Vector3D point){
-        return (point.getX() >= c1.getX() && point.getX() <= c2.getX()) &&
-                (point.getY() >= c1.getY() && point.getY() <= c2.getY()) &&
-                (point.getZ() >= c1.getZ() && point.getZ() <= c2.getZ());
+    public boolean isPointInsideAABB(Vector3D point) {
+        return (point.getX() >= cmin.getX() && point.getX() <= cmax.getX()) &&
+                (point.getY() >= cmin.getY() && point.getY() <= cmax.getY()) &&
+                (point.getZ() >= cmin.getZ() && point.getZ() <= cmax.getZ());
+    }
+
+    public boolean isBoxInsideAABB(Vector3D min, Vector3D max) {
+        return (cmin.getX() <= max.getX() && cmax.getX() >= min.getX()) &&
+                (cmin.getY() <= max.getY() && cmax.getY() >= min.getY()) &&
+                (cmin.getZ() <= max.getZ() && cmax.getZ() >= min.getZ());
     }
 }

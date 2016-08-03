@@ -245,4 +245,10 @@ public class MU {
     public static Vector3D add(Vector3D v1, Vector3D v2) {
         return new Vector3D(v1.getX() + v2.getX(), v1.getY() + v2.getY(), v1.getZ() + v2.getZ());
     }
+
+    public static boolean intersects(Vector3D amin, Vector3D amax, Vector3D bmin, Vector3D bmax) {
+        return (amin.getX() <= bmax.getX() && amax.getX() >= bmin.getX()) &&
+                (amin.getY() <= bmax.getY() && amax.getY() >= bmin.getY()) &&
+                (amin.getZ() <= bmax.getZ() && amax.getZ() >= bmin.getZ());
+    }
 }

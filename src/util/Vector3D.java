@@ -42,10 +42,10 @@ public class Vector3D {
             y += vec.y;
             z += vec.z;
         }else{
-            if(x+vec.x>1){
+            if (x + vec.x > 2) {
                 x += vec.x;
             }
-            if(y+vec.y>1){
+            if (y + vec.y > 2) {
                 y += vec.y;
             }
             if(z+vec.z>0){
