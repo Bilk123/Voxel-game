@@ -23,9 +23,11 @@ public class Bullet extends Entity {
             if (e.ID != 2 && e.ID != 0) {
                 e.health -= damage;
                 dispose = true;
+                level.getPlayer().setShot(false);
             }
         };
         l.addEntities(this);
+        level.getPlayer().setShot(true);
     }
 
     @Override
@@ -33,6 +35,7 @@ public class Bullet extends Entity {
         super.update();
         if (loc.getX() > level.getEnv().getSide() || loc.getY() > level.getEnv().getSide()) {
             dispose = true;
+            level.getPlayer().setShot(false);
         }
     }
 
@@ -58,11 +61,13 @@ public class Bullet extends Entity {
             loc.add(MU.multiply(movement, 16 / 1000.0), true);
         } else {
             dispose = true;
+            level.getPlayer().setShot(false);
         }
     }
 
     @Override
     protected void paint(Graphics2D g2d) {
-
+        g2d.setColor(new Color(0, 0, 0, 0.3f));
+        g2d.fillOval((int) (Grid.getPointInSpace(level.getEnv().getGrid(), loc.getX(), loc.getY(), 1).getX() - 4), (int) (Grid.getPointInSpace(level.getEnv().getGrid(), loc.getX(), loc.getY(), 1).getY() - 2.5), 8, 5);
     }
 }

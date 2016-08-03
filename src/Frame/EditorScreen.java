@@ -11,12 +11,11 @@ public class EditorScreen extends JPanel {
     public static int s_maxWidth, s_maxHeight;
     public static Font font;
     public static int locX, locY;
-
-    @NotNull
-    private final JFrame jf;
+    public static int mouseX, mouseY;
     @NotNull
     private static ComponentManager cm;
-    public static int mouseX, mouseY;
+    @NotNull
+    private final JFrame jf;
 
     public EditorScreen() {
         super();
@@ -30,7 +29,7 @@ public class EditorScreen extends JPanel {
         s_maxHeight = ss.height;
         s_maxWidth = ss.width;
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        jf.setSize((int)(s_maxWidth*0.8), (int) ((s_maxWidth*0.8)*9/16.0));
+        jf.setSize((int) (1280), (int) ((720)));
         s_maxWidth = jf.getWidth();
         s_maxHeight = jf.getHeight();
         cm = new ComponentManager();

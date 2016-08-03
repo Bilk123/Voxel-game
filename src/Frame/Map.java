@@ -13,6 +13,7 @@ public class Map extends Model {
     public Map(Project map, ArrayList<Entity> entities) {
         super(map.getSide(), map.getCanvasHeight());
         setBuffer(map.getCubeData());
+        grid.setLocation(EditorScreen.s_maxWidth / 2 - 40, EditorScreen.s_maxHeight / 2);
         setZoom(30);
         setRotate(45);
         paintX = (PaintEvent e, int z, int y, Graphics2D g2d) -> {

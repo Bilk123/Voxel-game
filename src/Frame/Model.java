@@ -35,7 +35,7 @@ public class Model {
     private int side, height;   // the sides length and height of the canvas
 
     public Model(int side, int height) {  //constructor
-        grid = new Grid(side, height, EditorScreen.s_maxWidth / 2, EditorScreen.s_maxHeight / 2);//instantiates the grid in the centre of the screen
+        grid = new Grid(side, height, EditorScreen.s_maxWidth / 2 - 20, EditorScreen.s_maxHeight / 2 + 500);//instantiates the grid in the centre of the screen
         cubes = new Cube[height - 1][side - 1][side - 1];//instantiates the cube array according the grid
         normalBuffer = new int[height - 1][side - 1][side - 1];
         pnt = new Rectangle(0, 0, 1, 1);// instantiates the rectangle used for user input

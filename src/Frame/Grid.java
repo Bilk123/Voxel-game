@@ -8,21 +8,12 @@ import java.awt.*;
 
 public class Grid {
 
-    /**
-     * class is used for creating 3-Dimensional space which can my rotated and scaled
-     *
-     * @see GridPoint is combined
-     * @see CirclePoint
-     */
-    private int x;
-    private int y;
     private final int height;
     private final int side;
     @NotNull
     private final int[][][] xp;
     @NotNull
     private final int[][][] yp;
-    private double rotate, rotatey, zoom;
     @NotNull
     private final GridPoint[][][] pts;
     @NotNull
@@ -31,6 +22,15 @@ public class Grid {
     private final CirclePoint[] zAxis;
     @NotNull
     private final CirclePoint cent;
+    /**
+     * class is used for creating 3-Dimensional space which can my rotated and scaled
+     *
+     * @see GridPoint is combined
+     * @see CirclePoint
+     */
+    private int x;
+    private int y;
+    private double rotate, rotatey, zoom;
 
     public Grid(int side, int height, int x, int y) {
         /**
@@ -86,6 +86,25 @@ public class Grid {
 
     }
 
+    public static Vector2D getPointInSpace(Grid grid, double xi, double yi, double zi) {
+        double x_, y_;
+        GridPoint gp = new GridPoint(0, 0, 0, 0, 0, 0, 0);
+        CirclePoint zLoc = new CirclePoint(1, 0, 0, 0, 0, 0, 0, 0);
+        grid.cent.update(grid.x, grid.y,
+                (int) (Math.sqrt(MU.square(100 * (grid.side - 1) * MU.cos(45)) + MU.square(100 * (grid.side - 1) * MU.sin(45))) / 2),
+                grid.rotate - 135, 90, grid.rotatey, grid.zoom);
+        x_ = (int) grid.cent.getPts()[0].getX();
+        zLoc.update((int) x_, (int) (grid.y - (grid.y - grid.cent.getPts()[0].getY())),
+                (int) ((zi + 1) * Math.abs(Math.sqrt(MU.square(100 * MU.cos(45)) + MU.square(100 * MU.sin(45)))
+                        - Math.sqrt(MU.square(100 * 2 * MU.cos(45)) + MU.square(100 * 2 * MU.sin(45)))) / Math.sqrt(2)),
+                90, 0, grid.rotatey - 90, grid.zoom);
+        y_ = (int) (zLoc.getPts()[0].getY());
+        gp.update((int) x_, (int) y_,
+                (int) (Math.sqrt(MU.square(100 * (xi) * MU.cos(45)) + MU.square(100 * yi * MU.sin(45)))),
+                grid.rotate, Math.toDegrees(MU.arctan(yi / xi)), grid.rotatey, grid.zoom);
+        return gp.getVecs();
+    }
+
     public void update() {
 
         cent.update(x, y,
@@ -120,7 +139,6 @@ public class Grid {
             }
         }
     }
-
 
     public void rotate(double direction) {
         if (rotate + direction < 0) {
@@ -175,6 +193,10 @@ public class Grid {
         return rotate;
     }
 
+    public void setRotate(double rotate) {
+        this.rotate = rotate;
+    }
+
     public double getRotateY() {
         return rotatey;
     }
@@ -188,16 +210,12 @@ public class Grid {
         return zoom;
     }
 
-    public void setRotate(double rotate) {
-        this.rotate = rotate;
+    public void setZoom(int zoom) {
+        this.zoom = zoom;
     }
 
     public void setRotatey(double rotatey) {
         this.rotatey = rotatey;
-    }
-
-    public void setZoom(int zoom) {
-        this.zoom = zoom;
     }
 
     public int getX() {
@@ -210,28 +228,5 @@ public class Grid {
 
     public Vector2D getLocation() {
         return new Vector2D(x, y);
-    }
-
-    public static Vector2D getPointInSpace(Grid grid, double xi, double yi, double zi) {
-        double x_, y_;
-        GridPoint gp = new GridPoint(0, 0, 0, 0, 0, 0, 0);
-        CirclePoint zLoc = new CirclePoint(1, 0, 0, 0, 0, 0, 0, 0);
-        grid.cent.update(grid.x, grid.y,
-                (int) (Math.sqrt(MU.square(100 * (grid.side - 1) * MU.cos(45)) + MU.square(100 * (grid.side - 1) * MU.sin(45))) / 2),
-                grid.rotate - 135, 90, grid.rotatey, grid.zoom);
-
-        x_ = (int) grid.cent.getPts()[0].getX();
-        y_ = (int) grid.cent.getPts()[0].getY();
-        zLoc.update((int) x_, (int) (grid.y - (grid.y - grid.cent.getPts()[0].getY())),
-                (int) ((zi + 1) * Math.abs(Math.sqrt(MU.square(100 * MU.cos(45)) + MU.square(100 * MU.sin(45)))     //(z+1)*|squareRoot(((100*cos(45))^2)+(100*sin(45))^2) - squareRoot((200*cos(45))^2+(200*sin45)^2)|
-                        - Math.sqrt(MU.square(100 * 2 * MU.cos(45)) + MU.square(100 * 2 * MU.sin(45)))) / Math.sqrt(2)),
-                90, 0, grid.rotatey - 90, grid.zoom);
-        y_ = (int) (zLoc.getPts()[0].getY());
-        gp.update((int) x_, (int) y_,
-                (int) (Math.sqrt(MU.square(100 * (xi) * MU.cos(45)) + MU.square(100 * yi * MU.sin(45)))),
-                grid.rotate, Math.toDegrees(MU.arctan(yi / xi)), grid.rotatey, grid.zoom);
-
-
-        return gp.getVecs();
     }
 }

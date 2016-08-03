@@ -82,8 +82,8 @@ public abstract class Entity extends Model {
     protected void wallCollisions() {
         boolean add = true;
         Vector3D check = MU.add(loc, MU.multiply(movement, 16 / 1000.0));
-        cp1.set(check.getX() - 1.1, check.getY() - 1.1, check.getZ());
-        cp2.set(check.getX() - 0.1, check.getY() - 0.1, check.getZ() + 2);
+        cp1.set(check.getX() - 1, check.getY() - 1, check.getZ());
+        cp2.set(check.getX(), check.getY(), check.getZ() + 2);
         for (int z = (int) loc.getZ(); z < loc.getZ() + 2; z++) {
             for (int x = 0; x < level.getEnv().getSide() - 1; x++) {
                 for (int y = 0; y < level.getEnv().getSide() - 1; y++) {

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import util.MU;
 import util.Vector2D;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -14,6 +15,7 @@ import java.awt.event.MouseEvent;
 public class Player extends Entity {
 
     private int mx, my;
+    private boolean shot;
 
     public Player(Level l, Project modelData, double x, double y, double z) {
         super(l, modelData, x, y, z);
@@ -110,10 +112,23 @@ public class Player extends Entity {
 
     @Override
     protected void mousePress(MouseEvent e) {
-        Bullet b = new Bullet(level, ModelManager.getModel("bullet"), loc.getX(), loc.getY(), loc.getZ() + 1);
-        b.movement.set(b.speed * MU.cos(grid.getRotate() - 45) * MU.sin(grid.getRotateY()), b.speed * MU.sin(grid.getRotate() - 45) * MU.sin(grid.getRotateY()), 0);
-        b.setRotate(grid.getRotate());
+        if (!shot) {
+            Bullet b = new Bullet(level, ModelManager.getModel("bullet"), loc.getX(), loc.getY(), loc.getZ() + 1);
+            b.movement.set(b.speed * MU.cos(grid.getRotate() - 45) * MU.sin(grid.getRotateY()), b.speed * MU.sin(grid.getRotate() - 45) * MU.sin(grid.getRotateY()), 0);
+            b.setRotate(grid.getRotate());
+        }
     }
 
+    @Override
+    public void paintGuiComponent(@NotNull Graphics2D g2d) {
+        super.paintGuiComponent(g2d);
+        if (shot) {
+            g2d.setColor(Color.YELLOW);
+            g2d.fillRect((int) Grid.getPointInSpace(level.getEnv().getGrid(), loc.getX() + 0.8 * MU.cos(grid.getRotate() - 75) - 0.4, loc.getY() + 0.8 * MU.sin(grid.getRotate() - 75) - 0.4, loc.getZ() + 1).getX(), (int) Grid.getPointInSpace(level.getEnv().getGrid(), loc.getX() + 0.8 * MU.cos(grid.getRotate() - 75) - 0.4, loc.getY() + 0.8 * MU.sin(grid.getRotate() - 75) - 0.4, loc.getZ() + 1).getY(), 8, 8);
+        }
+    }
 
+    public void setShot(boolean shot) {
+        this.shot = shot;
+    }
 }
